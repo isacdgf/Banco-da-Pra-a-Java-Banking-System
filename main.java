@@ -22,7 +22,6 @@ public class main{
     public static void criarConta(){
         //CRIAR CLIENTE
         String nome;
-        int codigo;
         String senha;
 
         System.out.println("--------------------------");
@@ -41,48 +40,12 @@ public class main{
             }
         }
 
-        while(true){
-            System.out.println("Digite seu codigo:");
-            codigo = scanner.nextInt();
-
-            if(codigo <= 0){
-                System.out.println("Digite um valor valido!!!");
-            }
-            else{
-                break;
-            }
-        }
-
-
 
         System.out.println("---Cliente Criado---");
         System.out.println("====================");
 
-        int numero;
         int Chavepix;
 
-
-        while(true){
-            System.out.println("Digite o numero da conta:");
-            numero = scanner.nextInt();
-
-            boolean ProcurarNumeroDaContaExistente = false;
-            for(int i = 0; i < ListaDeClientes.size(); i++){
-                if(ListaDeContas.get(i).numero == numero){
-                    ProcurarNumeroDaContaExistente = true;
-                }
-            }
-
-            if(numero <= 0){
-                System.out.println("Numero invalido!!");
-            }
-            else if(ProcurarNumeroDaContaExistente){
-                System.out.println("Numero ja existente!!");
-            }
-            else{
-                break;
-            }
-        }
 
         while(true){
             System.out.println("Digite a chave pix:");
@@ -138,11 +101,13 @@ public class main{
             }
         }
 
-        Cliente NovoCliente = new Cliente(nome, codigo);
+        Cliente NovoCliente = new Cliente(nome);
         Agencia AgenciaDoBanco = new Agencia(1234);
 
-        Conta NovaConta = new Conta(numero, Chavepix, senha, AgenciaDoBanco, NovoCliente);
 
+        Conta NovaConta = new Conta(Chavepix, senha, AgenciaDoBanco, NovoCliente);
+
+        
 
         NovoCliente.conta = NovaConta;
 
@@ -150,6 +115,8 @@ public class main{
         ListaDeContas.add(NovaConta);
 
         limparTela();
+
+        System.out.println("Seu codigo é:"+(NovoCliente.codigo));
 
         System.out.println("Conta cadastrada!!");
 
@@ -271,40 +238,57 @@ public class main{
                     break;
 
                 case 6:
-                    System.out.println("Digite o numero da conta de destino:");
+                    System.out.println("Digite a chave Pix de destino:");
 
-                    int numeroDestino = scanner.nextInt();
+                    int chavePixDestino = scanner.nextInt();
                     Conta contaDestino = null;
 
-                    for(Conta conta : ListaDeContas){
-                        if(conta.numero == numeroDestino){
+                    for (int i = 0; i < ListaDeContas.size(); i++) {
+                        Conta conta = ListaDeContas.get(i);
+
+                        if (conta.ChavePix == chavePixDestino) {
                             contaDestino = conta;
                             break;
                         }
                     }
-                    if(contaDestino == null){
-                        System.out.println("Conta de destino nao encontrada.");
-                    }
-                    else if(contaDestino == contaAtual){
-                        System.out.println("Essa é a sua chave pix");
-                        break;
 
-                    }
+                    
+
+                    if (contaDestino == null) {
+                        System.out.println("Chave Pix não encontrada.");
+                    } 
+
+                    else if (contaDestino == contaAtual) {
+                        System.out.println("Essa chave Pix pertence à sua conta.");
+                    } 
+
                     else {
-                        System.out.println("Digite o valor da transferencia:");
+                        System.out.println("--------------------------");
+                        System.out.println("Informações do receptor:");
+                        System.out.println("Codigo:"+contaDestino.codigo);
+                        System.out.println("Nome:"+contaDestino.titular.nome);
+                        System.out.println("Chave pix:"+contaDestino.ChavePix);
+                        System.out.println("--------------------------");
 
-                        int transferencia = scanner.nextInt();
+                        System.out.println("Digite o valor da transferência(R$):");
 
-                        if(transferencia > 0 && transferencia <= contaAtual.saldo){
+                        double transferencia = scanner.nextDouble();
+
+                        if (transferencia > 0 && transferencia <= contaAtual.saldo) {
                             contaAtual.sacar(transferencia);
+
                             contaDestino.depositar(transferencia);
-                            System.out.println("Transferencia realizada.");
 
-                        } else {
-                            System.out.println("Valor invalido ou saldo insuficiente.");
-
+                            limparTela();
+                            System.out.println("Transferência realizada.");
+                            
+                        } 
+                        else {
+                            limparTela();
+                            System.out.println("Valor inválido ou saldo insuficiente.");
                         }
                     }
+
                     break;
                 case 7:
                     System.out.println("Saindo...");

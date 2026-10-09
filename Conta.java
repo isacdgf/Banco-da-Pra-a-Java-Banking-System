@@ -5,14 +5,16 @@ public class Conta {
     String senha;
     Agencia agencia;
     Cliente titular;
+    static int codigo = 1000;
 
-    Conta(int numero, int ChavePix, String senha, Agencia agencia, Cliente titular){
-        this.numero = numero;
+    Conta(int ChavePix, String senha, Agencia agencia, Cliente titular){
+        this.numero = codigo;
         this.ChavePix = ChavePix;
-        this.senha = senha;
+        this.senha =senha;
         this.agencia = agencia;
         this.titular = titular;
-        
+
+        codigo++;
     }
 
     void sacar(double valordesaque){

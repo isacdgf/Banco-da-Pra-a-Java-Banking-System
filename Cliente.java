@@ -1,10 +1,12 @@
-public class Cliente {
+public class Cliente { 
+    static int codigo = 999;
     String nome;
-    int codigo;
     Conta conta;
 
-    Cliente(String nome, int codigo){
+    Cliente(String nome){
         this.nome = nome;
         this.codigo = codigo;
+
+        codigo++;
     }
 }
