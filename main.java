@@ -54,7 +54,6 @@ public class main{
         }
 
 
-        //CLIENTE CRIADO;
 
         System.out.println("---Cliente Criado---");
         System.out.println("====================");
@@ -67,8 +66,18 @@ public class main{
             System.out.println("Digite o numero da conta:");
             numero = scanner.nextInt();
 
+            boolean ProcurarNumeroDaContaExistente = false;
+            for(int i = 0; i < ListaDeClientes.size(); i++){
+                if(ListaDeContas.get(i).numero == numero){
+                    ProcurarNumeroDaContaExistente = true;
+                }
+            }
+
             if(numero <= 0){
                 System.out.println("Numero invalido!!");
+            }
+            else if(ProcurarNumeroDaContaExistente){
+                System.out.println("Numero ja existente!!");
             }
             else{
                 break;
@@ -80,13 +89,27 @@ public class main{
             System.out.println("(Aviso: A chave pix deve conter 5 digitos)");
             Chavepix = scanner.nextInt();
 
+            boolean ProcurarChavePixExistente = false;
+            for(int i = 0; i < ListaDeClientes.size(); i++){
+                
+                if (ListaDeContas.get(i).ChavePix == Chavepix){ 
+                    ProcurarChavePixExistente = true;
+                    
+                }
+            }
+
             if(Chavepix <= 0 || Chavepix < 9999 || Chavepix > 99999 ){
                 System.out.println("Chave invalida!!");
+            }
+            else if(ProcurarChavePixExistente){
+                System.out.println("Essa chave pix ja é exitente, digite outra chave!!");
             }
             else{
                 break;
             }
         }
+
+        scanner.nextLine();
 
         while(true){
             System.out.println("Digite a senha:");
@@ -126,12 +149,15 @@ public class main{
         ListaDeClientes.add(NovoCliente);
         ListaDeContas.add(NovaConta);
 
+        limparTela();
+
         System.out.println("Conta cadastrada!!");
 
     }
 
     public static void EntrarNaConta(){
         if(ListaDeContas.isEmpty()){
+            limparTela();
             System.out.println("Nem uma conta cadastrada!!");
             return;
         }
@@ -164,6 +190,8 @@ public class main{
             return;
         }
 
+        limparTela();
+
         System.out.println("Login realizado com sucesso!");
 
         menuDaConta(contaAtual);
@@ -185,53 +213,69 @@ public class main{
     }
 
     public static void menuDaConta(Conta contaAtual){
+
         boolean SistemaAtivo = true;
 
         do{
+
             menuPricipal();
             int escolha = scanner.nextInt();
+            limparTela();
 
             switch (escolha) {
                 case 1:
                     contaAtual.consultar_saldo();
+
                     break;
                 case 2:
                     System.out.println("Quanto deseja sacar?");
                     int sacar = scanner.nextInt();
+
                     if(sacar > 0 && sacar <= contaAtual.saldo){
                         contaAtual.sacar(sacar);
                         contaAtual.consultar_saldo();
+
                     } else {
                         System.out.println("Valor invalido ou saldo insuficiente.");
                     }
                     break;
+
                 case 3:
                     System.out.println("Digite o valor da recarga:");
                     int valor = scanner.nextInt();
+
                     if(valor > 0 && valor <= contaAtual.saldo){
                         contaAtual.recarga(valor);
                         contaAtual.consultar_saldo();
+
                     } else {
                         System.out.println("Valor invalido ou saldo insuficiente.");
                     }
                     break;
+
                 case 4:
                     System.out.println("Quanto deseja depositar?");
                     int deposito = scanner.nextInt();
+
                     if(deposito > 0){
                         contaAtual.depositar(deposito);
                         contaAtual.consultar_saldo();
+
                     } else {
                         System.out.println("Digite um valor valido!!");
                     }
                     break;
+
                 case 5:
                     SistemaAtivo = false;
                     break;
+
                 case 6:
                     System.out.println("Digite o numero da conta de destino:");
+
                     int numeroDestino = scanner.nextInt();
                     Conta contaDestino = null;
+
                     for(Conta conta : ListaDeContas){
                         if(conta.numero == numeroDestino){
                             contaDestino = conta;
@@ -240,21 +284,32 @@ public class main{
                     }
                     if(contaDestino == null){
                         System.out.println("Conta de destino nao encontrada.");
-                    } else {
+                    }
+                    else if(contaDestino == contaAtual){
+                        System.out.println("Essa é a sua chave pix");
+                        break;
+
+                    }
+                    else {
                         System.out.println("Digite o valor da transferencia:");
+
                         int transferencia = scanner.nextInt();
+
                         if(transferencia > 0 && transferencia <= contaAtual.saldo){
                             contaAtual.sacar(transferencia);
                             contaDestino.depositar(transferencia);
                             System.out.println("Transferencia realizada.");
+
                         } else {
                             System.out.println("Valor invalido ou saldo insuficiente.");
+
                         }
                     }
                     break;
                 case 7:
                     System.out.println("Saindo...");
                     System.exit(0);
+
                     break;
                 default:
                     System.out.println("Opcao invalida.");
@@ -269,6 +324,8 @@ public class main{
             PrimeiroMenu();
             int escolha = scanner.nextInt();
             scanner.nextLine();
+
+            limparTela();
 
             switch (escolha) {
                 case 1:

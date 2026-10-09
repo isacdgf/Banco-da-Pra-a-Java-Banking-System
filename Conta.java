@@ -21,7 +21,6 @@ public class Conta {
     void consultar_saldo(){
         System.out.println("--------------------------");
         System.out.println("Saldo: R$"+this.saldo);
-        System.out.println("--------------------------");
     }
     void recarga(double valor){
 
