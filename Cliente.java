@@ -1,9 +1,9 @@
 public class Cliente {
     String nome;
-    String codigo;
+    int codigo;
     Conta conta;
 
-    Cliente(String nome, String codigo){
+    Cliente(String nome, int codigo){
         this.nome = nome;
         this.codigo = codigo;
     }

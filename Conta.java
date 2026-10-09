@@ -1,15 +1,18 @@
 public class Conta {
-    String nome;
     int numero;
-    double saldo;
-    String pix;
+    double saldo = 0;
+    int ChavePix;
+    String senha;
     Agencia agencia;
     Cliente titular;
 
-    Conta(int numero, double saldo, String pix){
+    Conta(int numero, int ChavePix, String senha, Agencia agencia, Cliente titular){
         this.numero = numero;
-        this.saldo = saldo;
-        this.pix = pix;
+        this.ChavePix = ChavePix;
+        this.senha = senha;
+        this.agencia = agencia;
+        this.titular = titular;
+        
     }
 
     void sacar(double valordesaque){
