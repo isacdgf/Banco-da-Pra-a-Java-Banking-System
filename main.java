@@ -55,7 +55,7 @@ public class main{
             boolean ProcurarChavePixExistente = false;
             for(int i = 0; i < ListaDeClientes.size(); i++){
                 
-                if (ListaDeContas.get(i).ChavePix == Chavepix){ 
+                if (ListaDeContas.get(i).getChavePix() == Chavepix){ 
                     ProcurarChavePixExistente = true;
                     
                 }
@@ -109,14 +109,14 @@ public class main{
 
         
 
-        NovoCliente.conta = NovaConta;
+        NovoCliente.setConta(NovaConta);
 
         ListaDeClientes.add(NovoCliente);
         ListaDeContas.add(NovaConta);
 
         limparTela();
 
-        System.out.println("Seu codigo é:"+(NovoCliente.codigo));
+        System.out.println("Seu codigo é:"+(NovoCliente.getcodigo()-1));
 
         System.out.println("Conta cadastrada!!");
 
@@ -137,7 +137,7 @@ public class main{
         for (int i = 0; i < ListaDeContas.size(); i++) {
             Conta conta = ListaDeContas.get(i);
 
-            if (conta.numero == numeroDeBuscaDaConta) {
+            if (conta.getnumero() == numeroDeBuscaDaConta) {
                 contaAtual = conta;
                 break;
             }
@@ -152,7 +152,7 @@ public class main{
         System.out.println("Digite a senha:");
         String senhaDigitada = scanner.next();
 
-        if (!contaAtual.senha.equals(senhaDigitada)) {
+        if (!contaAtual.getsenha().equals(senhaDigitada)) {
             System.out.println("Senha incorreta!");
             return;
         }
@@ -191,16 +191,16 @@ public class main{
 
             switch (escolha) {
                 case 1:
-                    contaAtual.consultar_saldo();
+                    contaAtual.getconsultar_saldo();
 
                     break;
                 case 2:
                     System.out.println("Quanto deseja sacar?");
                     int sacar = scanner.nextInt();
 
-                    if(sacar > 0 && sacar <= contaAtual.saldo){
-                        contaAtual.sacar(sacar);
-                        contaAtual.consultar_saldo();
+                    if(sacar > 0 && sacar <= contaAtual.getsaldo()){
+                        contaAtual.setsacar(sacar);
+                        contaAtual.getconsultar_saldo();
 
                     } else {
                         System.out.println("Valor invalido ou saldo insuficiente.");
@@ -211,9 +211,9 @@ public class main{
                     System.out.println("Digite o valor da recarga:");
                     int valor = scanner.nextInt();
 
-                    if(valor > 0 && valor <= contaAtual.saldo){
-                        contaAtual.recarga(valor);
-                        contaAtual.consultar_saldo();
+                    if(valor > 0 && valor <= contaAtual.getsaldo()){
+                        contaAtual.setrecarga(valor);
+                        contaAtual.getconsultar_saldo();
 
                     } else {
                         System.out.println("Valor invalido ou saldo insuficiente.");
@@ -225,8 +225,8 @@ public class main{
                     int deposito = scanner.nextInt();
 
                     if(deposito > 0){
-                        contaAtual.depositar(deposito);
-                        contaAtual.consultar_saldo();
+                        contaAtual.setdepositar(deposito);
+                        contaAtual.getconsultar_saldo();
 
                     } else {
                         System.out.println("Digite um valor valido!!");
@@ -242,11 +242,11 @@ public class main{
 
                     int chavePixDestino = scanner.nextInt();
                     Conta contaDestino = null;
-
+                    Conta conta;
                     for (int i = 0; i < ListaDeContas.size(); i++) {
-                        Conta conta = ListaDeContas.get(i);
+                        conta = ListaDeContas.get(i);
 
-                        if (conta.ChavePix == chavePixDestino) {
+                        if (conta.getChavePix() == chavePixDestino) {
                             contaDestino = conta;
                             break;
                         }
@@ -265,19 +265,19 @@ public class main{
                     else {
                         System.out.println("--------------------------");
                         System.out.println("Informações do receptor:");
-                        System.out.println("Codigo:"+contaDestino.codigo);
-                        System.out.println("Nome:"+contaDestino.titular.nome);
-                        System.out.println("Chave pix:"+contaDestino.ChavePix);
+                        System.out.println("Código: " + contaDestino.getnumero());
+                        System.out.println("Nome:"+contaDestino.getCliente().getnome());
+                        System.out.println("Chave pix:"+contaDestino.getChavePix());
                         System.out.println("--------------------------");
 
                         System.out.println("Digite o valor da transferência(R$):");
 
                         double transferencia = scanner.nextDouble();
 
-                        if (transferencia > 0 && transferencia <= contaAtual.saldo) {
-                            contaAtual.sacar(transferencia);
+                        if (transferencia > 0 && transferencia <= contaAtual.getsaldo()) {
+                            contaAtual.setsacar(transferencia);
 
-                            contaDestino.depositar(transferencia);
+                            contaDestino.setdepositar(transferencia);
 
                             limparTela();
                             System.out.println("Transferência realizada.");

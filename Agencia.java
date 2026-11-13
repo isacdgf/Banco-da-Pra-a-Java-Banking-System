@@ -1,8 +1,12 @@
 public class Agencia {
-    int codigo;
+    private int codigo;
 
     Agencia(int codigo){
         this.codigo = codigo;
+    }
+
+    public int getcodigo(){
+        return this.codigo;
     }
     
 }
