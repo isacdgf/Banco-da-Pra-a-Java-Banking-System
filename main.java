@@ -104,8 +104,18 @@ public class main{
         Cliente NovoCliente = new Cliente(nome);
         Agencia AgenciaDoBanco = new Agencia(1234);
 
+        System.out.println("Escolha o tipo da conta:");
+        System.out.println("1. Conta corrente");
+        System.out.println("2. Conta poupança");
+        int tipoConta = scanner.nextInt();
 
-        Conta NovaConta = new Conta(Chavepix, senha, AgenciaDoBanco, NovoCliente);
+
+        Conta NovaConta;
+        if (tipoConta == 2) {
+            NovaConta = new ContaPoupanca(Chavepix, senha, AgenciaDoBanco, NovoCliente);
+        } else {
+            NovaConta = new ContaCorrente(Chavepix, senha, AgenciaDoBanco, NovoCliente);
+        }
 
         
 
@@ -191,10 +201,12 @@ public class main{
 
             switch (escolha) {
                 case 1:
+                    contaAtual.tipo();
                     contaAtual.getconsultar_saldo();
 
                     break;
                 case 2:
+                    contaAtual.tipo();
                     System.out.println("Quanto deseja sacar?");
                     int sacar = scanner.nextInt();
 
@@ -208,6 +220,7 @@ public class main{
                     break;
 
                 case 3:
+                    contaAtual.tipo();
                     System.out.println("Digite o valor da recarga:");
                     int valor = scanner.nextInt();
 
@@ -221,6 +234,7 @@ public class main{
                     break;
 
                 case 4:
+                    contaAtual.tipo();
                     System.out.println("Quanto deseja depositar?");
                     int deposito = scanner.nextInt();
 
@@ -238,56 +252,7 @@ public class main{
                     break;
 
                 case 6:
-                    System.out.println("Digite a chave Pix de destino:");
-
-                    int chavePixDestino = scanner.nextInt();
-                    Conta contaDestino = null;
-                    Conta conta;
-                    for (int i = 0; i < ListaDeContas.size(); i++) {
-                        conta = ListaDeContas.get(i);
-
-                        if (conta.getChavePix() == chavePixDestino) {
-                            contaDestino = conta;
-                            break;
-                        }
-                    }
-
-                    
-
-                    if (contaDestino == null) {
-                        System.out.println("Chave Pix não encontrada.");
-                    } 
-
-                    else if (contaDestino == contaAtual) {
-                        System.out.println("Essa chave Pix pertence à sua conta.");
-                    } 
-
-                    else {
-                        System.out.println("--------------------------");
-                        System.out.println("Informações do receptor:");
-                        System.out.println("Código: " + contaDestino.getnumero());
-                        System.out.println("Nome:"+contaDestino.getCliente().getnome());
-                        System.out.println("Chave pix:"+contaDestino.getChavePix());
-                        System.out.println("--------------------------");
-
-                        System.out.println("Digite o valor da transferência(R$):");
-
-                        double transferencia = scanner.nextDouble();
-
-                        if (transferencia > 0 && transferencia <= contaAtual.getsaldo()) {
-                            contaAtual.setsacar(transferencia);
-
-                            contaDestino.setdepositar(transferencia);
-
-                            limparTela();
-                            System.out.println("Transferência realizada.");
-                            
-                        } 
-                        else {
-                            limparTela();
-                            System.out.println("Valor inválido ou saldo insuficiente.");
-                        }
-                    }
+                    contaAtual.transferirPix(ListaDeContas, scanner);
 
                     break;
                 case 7:
