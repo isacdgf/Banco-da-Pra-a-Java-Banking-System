@@ -51,7 +51,7 @@ public abstract class Conta {
     }
     void getconsultar_saldo(){
         System.out.println("--------------------------");
-        System.out.println("Saldo: R$"+this.saldo);
+        System.out.printf("Saldo: R$ %.2f%n", this.saldo);
     }
     void setrecarga(double valor){
 
